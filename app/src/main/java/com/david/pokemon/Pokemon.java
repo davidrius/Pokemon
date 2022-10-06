@@ -59,9 +59,10 @@ public class Pokemon {
     public String toString() {
         return "Pokemon{" +
                 "name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                ", detailsUrl='" + detailsUrl + '\'' +
                 ", weight=" + weight +
                 ", height=" + height +
-                ", image='" + image + '\'' +
                 '}';
     }
 

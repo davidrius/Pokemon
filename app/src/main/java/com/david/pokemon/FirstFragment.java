@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,12 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.bumptech.glide.Glide;
 import com.david.pokemon.databinding.FragmentFirstBinding;
 
 import java.util.ArrayList;
@@ -58,6 +62,7 @@ public class FirstFragment extends Fragment {
 
     /*public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        setHasOptionsMenu(true);
         inflater.inflate(R.menu.menu_main, menu);
     }
 
@@ -90,9 +95,11 @@ public class FirstFragment extends Fragment {
 
             });
 
+            Log.e("DEBUG", String.valueOf(pokemons));
+
         });
 
-        Toast toast = Toast.makeText(getContext(),"Refrescando", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(getContext(),"Refrescando...", Toast.LENGTH_LONG);
         toast.show();
 
     }
@@ -104,11 +111,27 @@ public class FirstFragment extends Fragment {
         }
     }
 
-    /*public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
+        // Mirem a veure si la View s'està reutilitzant, si no es així "inflem" la View
+        Pokemon pokemons = getItem(position);
 
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.lv_pokemon_row, parent, false);
+        }
 
-    }*/
+        // Unim el codi en les Views del Layout
+        TextView tvTitle = convertView.findViewById(R.id.txtTitle);
+        ImageView ivImagen = convertView.findViewById(R.id.imgPokemon);
+
+        // Fiquem les dades dels objectes (provinents del JSON) en el layout
+        tvTitle.setText(pokemons.getName());
+        Glide.with(getContext()).load(pokemons.getImage()).into(ivImagen);
+
+        // Retornem la View replena per a mostrar-la
+        return convertView;
+    }
 
     @Override
     public void onDestroyView() {
