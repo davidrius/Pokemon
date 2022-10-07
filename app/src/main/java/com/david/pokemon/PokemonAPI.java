@@ -2,6 +2,7 @@ package com.david.pokemon;
 
 import android.util.Log;
 
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,18 +26,28 @@ public class PokemonAPI {
 
                 JSONObject pokemonJson = results.getJSONObject(i);
                 Pokemon pokemon = new Pokemon();
+
                 pokemon.setName(pokemonJson.getString("name"));
                 pokemon.setDetailsUrl(pokemonJson.getString("url"));
 
                 String resultDetails = HttpUtils.get(pokemon.getDetailsUrl());
                 JSONObject jsonDetails = new JSONObject(resultDetails);
-                JSONObject sprites = new JSONObject();
+
                 pokemon.setHeight(jsonDetails.getInt("height"));
+                pokemon.setWeight(jsonDetails.getInt("weight"));
+
+
+                JSONObject sprites = jsonDetails.getJSONObject("sprites");
+                String spriteDefault = sprites.getString("front_default");
+                pokemon.setImage(spriteDefault);
+
+                Log.e("POKEMONS", pokemon.toString());
+
                 pokemons.add(pokemon);
 
             }
 
-            Log.e("POKEMONS", pokemons.toString());
+            //Log.e("POKEMONS", pokemons.toString());
             return pokemons;
 
         }catch(IOException e){

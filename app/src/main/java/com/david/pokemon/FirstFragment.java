@@ -31,7 +31,8 @@ import java.util.concurrent.Executors;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-    private ArrayAdapter adapter;
+    //private ArrayAdapter adapter;
+    private AdapterPersonalizado adapter;
 
     @Override
     public View onCreateView(
@@ -48,7 +49,14 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ArrayList<String> items = new ArrayList<>();
-        adapter = new ArrayAdapter<String>(
+        /*adapter = new ArrayAdapter<String>(
+                getContext(),
+                R.layout.lv_pokemon_row,
+                R.id.txtTitle,
+                items
+        );*/
+
+         adapter = new AdapterPersonalizado(
                 getContext(),
                 R.layout.lv_pokemon_row,
                 R.id.txtTitle,
@@ -105,7 +113,7 @@ public class FirstFragment extends Fragment {
     }
 
 
-    public class PokemonAdapter extends ArrayAdapter<Pokemon>{
+    /*public class PokemonAdapter extends ArrayAdapter<Pokemon>{
         public PokemonAdapter(Context context, int resource, List<Pokemon> objects) {
             super(context,resource,objects);
         }
@@ -131,7 +139,8 @@ public class FirstFragment extends Fragment {
 
         // Retornem la View replena per a mostrar-la
         return convertView;
-    }
+    }*/
+
 
     @Override
     public void onDestroyView() {
