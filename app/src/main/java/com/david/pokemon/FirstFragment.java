@@ -1,6 +1,7 @@
 package com.david.pokemon;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.preference.PreferenceManager;
 
 import com.bumptech.glide.Glide;
 import com.david.pokemon.databinding.FragmentFirstBinding;
@@ -41,7 +43,8 @@ public class FirstFragment extends Fragment {
     ) {
 
         binding = FragmentFirstBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        View view = binding.getRoot();
+        return view;
 
     }
 
@@ -88,6 +91,17 @@ public class FirstFragment extends Fragment {
     }*/
 
     public void refresh(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
+
+        String Tipos = preferences.getString("Tipos","Vacío");
+
+        if(!Tipos.equals("")){
+
+
+
+        }
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
 
