@@ -1,6 +1,8 @@
 package com.david.pokemon;
 
-public class Pokemon {
+import java.io.Serializable;
+
+public class Pokemon implements Serializable {
 
     //POJO --> Guardar objetos JSON
 

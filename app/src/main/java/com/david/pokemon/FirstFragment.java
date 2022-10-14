@@ -62,11 +62,30 @@ public class FirstFragment extends Fragment {
          adapter = new AdapterPersonalizado(
                 getContext(),
                 R.layout.lv_pokemon_row,
-                R.id.txtTitle,
+                //R.id.txtTitle,
                 items
         );
 
         binding.lvPokemon.setAdapter(adapter);
+        binding.lvPokemon.setOnItemClickListener((adapterView, view1, i, l) -> {
+
+            //devuelveme el item en la posicion
+            Pokemon item = (Pokemon) adapterView.getItemAtPosition(i);
+
+            //como un has map le decimos todo lo que va a haber
+            //los datos los encapsulamos para llevarlos al second_fragment
+
+            Bundle datos = new Bundle();
+            datos.putSerializable("item",item);
+
+            //irme a la otra pantalla fragment_second
+            //nav_graph --> nos permite pasar de un frtagmento a otro es decir navegar
+            //llevar los datos del bundle al segundo fragmento
+
+            NavHostFragment.findNavController(this).navigate(R.id.action_FirstFragment_to_SecondFragment, datos);
+
+
+        });
         refresh();
 
     }
