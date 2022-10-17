@@ -4,6 +4,7 @@
     <PreferenceCategory app:title="Pokemons">
 
         <EditTextPreference
+            app:defaultValue="Agua"
             app:key="Tipos"
             app:title="Tipos"
             app:useSimpleSummaryProvider="false" />
