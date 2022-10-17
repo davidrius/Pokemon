@@ -51,7 +51,6 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayList<String> items = new ArrayList<>();
         /*adapter = new ArrayAdapter<String>(
                 getContext(),
                 R.layout.lv_pokemon_row,
@@ -59,14 +58,36 @@ public class FirstFragment extends Fragment {
                 items
         );*/
 
+        ArrayList<Pokemon> items = new ArrayList<>();
+
          adapter = new AdapterPersonalizado(
                 getContext(),
                 R.layout.lv_pokemon_row,
-                R.id.txtTitle,
                 items
         );
 
         binding.lvPokemon.setAdapter(adapter);
+
+        binding.lvPokemon.setOnItemClickListener((adapterView, view1, i, l) -> {
+
+            //devuelveme el item en la posicion
+            Pokemon item = (Pokemon) adapterView.getItemAtPosition(i);
+
+            //como un has map le decimos todo lo que va a haber
+            //los datos los encapsulamos para llevarlos al second_fragment
+
+            Bundle datos = new Bundle();
+            datos.putSerializable("item",item);
+
+            //irme a la otra pantalla fragment_second
+            //nav_graph --> nos permite pasar de un frtagmento a otro es decir navegar
+            //llevar los datos del bundle al segundo fragmento
+
+            NavHostFragment.findNavController(this).navigate(R.id.action_FirstFragment_to_SecondFragment, datos);
+
+
+        });
+
         refresh();
 
     }
@@ -125,36 +146,6 @@ public class FirstFragment extends Fragment {
         toast.show();
 
     }
-
-
-    /*public class PokemonAdapter extends ArrayAdapter<Pokemon>{
-        public PokemonAdapter(Context context, int resource, List<Pokemon> objects) {
-            super(context,resource,objects);
-        }
-    }
-
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        // Mirem a veure si la View s'està reutilitzant, si no es així "inflem" la View
-        Pokemon pokemons = getItem(position);
-
-        if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.lv_pokemon_row, parent, false);
-        }
-
-        // Unim el codi en les Views del Layout
-        TextView tvTitle = convertView.findViewById(R.id.txtTitle);
-        ImageView ivImagen = convertView.findViewById(R.id.imgPokemon);
-
-        // Fiquem les dades dels objectes (provinents del JSON) en el layout
-        tvTitle.setText(pokemons.getName());
-        Glide.with(getContext()).load(pokemons.getImage()).into(ivImagen);
-
-        // Retornem la View replena per a mostrar-la
-        return convertView;
-    }*/
-
 
     @Override
     public void onDestroyView() {
