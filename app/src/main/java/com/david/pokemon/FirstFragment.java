@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.preference.PreferenceManager;
 
@@ -33,7 +35,6 @@ import java.util.concurrent.Executors;
 public class FirstFragment extends Fragment {
 
     private FragmentFirstBinding binding;
-    //private ArrayAdapter adapter;
     private AdapterPersonalizado adapter;
 
     @Override
@@ -50,13 +51,6 @@ public class FirstFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        /*adapter = new ArrayAdapter<String>(
-                getContext(),
-                R.layout.lv_pokemon_row,
-                R.id.txtTitle,
-                items
-        );*/
 
         ArrayList<Pokemon> items = new ArrayList<>();
 
@@ -88,7 +82,17 @@ public class FirstFragment extends Fragment {
 
         });
 
-        refresh();
+        PokemonsViewModel viewModel = new ViewModelProvider(getActivity()).get(PokemonsViewModel.class);
+        viewModel.getPokemons().observe(getActivity(), pokemons ->{     //observe para ver si hay cambios
+
+            adapter.clear();
+            adapter.addAll(pokemons);
+
+        });
+
+        Log.e("DEBUG", String.valueOf(viewModel));
+
+        viewModel.refresh();
 
     }
 
@@ -96,7 +100,7 @@ public class FirstFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         setHasOptionsMenu(true);
         inflater.inflate(R.menu.menu_main, menu);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,14 +108,14 @@ public class FirstFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            refresh();
+            viewModel.refresh();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
-    public void refresh(){
+    /*public void refresh(){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
 
@@ -140,12 +144,12 @@ public class FirstFragment extends Fragment {
 
             Log.e("DEBUG", String.valueOf(pokemons));
 
-        });
+        });*/
 
-        Toast toast = Toast.makeText(getContext(),"Refrescando...", Toast.LENGTH_LONG);
-        toast.show();
+        //Toast toast = Toast.makeText(getContext(),"Refrescando...", Toast.LENGTH_LONG);
+        //toast.show();
 
-    }
+    //}
 
     @Override
     public void onDestroyView() {
