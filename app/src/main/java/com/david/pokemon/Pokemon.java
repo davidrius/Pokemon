@@ -1,16 +1,33 @@
 package com.david.pokemon;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Pokemon implements Serializable {
-
+@PrimaryKey(autoGenerate = true)
     //POJO --> Guardar objetos JSON
 
+    private int id;
     private String name;
     private int weight;
     private int height;
     private String image;
     private String detailsUrl;
+
+    public Pokemon(){
+
+
+
+    }
+
+    public void setId(int id) {this.id = id;}
+    public int getId() {
+        return id;
+    }
+
 
     //hacer constructor
 

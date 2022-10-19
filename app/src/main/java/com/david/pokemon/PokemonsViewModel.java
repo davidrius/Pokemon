@@ -7,6 +7,7 @@ import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.preference.PreferenceManager;
 
@@ -18,25 +19,34 @@ import java.util.concurrent.Executors;
 public class PokemonsViewModel extends AndroidViewModel {
 
     private final Application app;
+    private final Object pokemonDao;
+    private final PokemonDB db;
 
-    //Live Data
+    //Live Data para sincronizar el viewModel con el first Fragment
 
     private MutableLiveData<List<Pokemon>> pokemons;
 
     public PokemonsViewModel(@NonNull Application application) {
         super(application);
         this.app = application;
+        this.db = PokemonDB.getDatabase(this.app);
+        this.pokemonDao = this.db.getPokemonDao();
     }
 
-    public MutableLiveData<List<Pokemon>> getPokemons() {
+    //mutable live data es porque lo modificaba yo
+    //Live data es porque lo que voy a poner no se va a modificar
 
-        if (pokemons == null) {
+    public LiveData<List<Pokemon>> getPokemons() {
+
+        return pokemonDao.getPokemon();
+
+        /*if (pokemons == null) {
 
             pokemons = new MutableLiveData<List<Pokemon>>();
 
         }
 
-        return pokemons;
+        return pokemons;*/
 
     }
 
@@ -59,7 +69,8 @@ public class PokemonsViewModel extends AndroidViewModel {
             PokemonAPI api = new PokemonAPI();
             ArrayList<Pokemon> pokemons = api.getPokemons();
 
-            this.pokemons.postValue(pokemons);
+            this.pokemonDao.deletePokemon();
+            this.pokemonDao.addPokemon();
 
         });
 

@@ -83,6 +83,7 @@ public class FirstFragment extends Fragment {
         });
 
         PokemonsViewModel viewModel = new ViewModelProvider(getActivity()).get(PokemonsViewModel.class);
+        //viewModel = new ViewModelProvider(getActivity()).get(PokemonsViewModel.class);
         viewModel.getPokemons().observe(getActivity(), pokemons ->{     //observe para ver si hay cambios
 
             adapter.clear();
@@ -96,11 +97,11 @@ public class FirstFragment extends Fragment {
 
     }
 
-    /*public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         setHasOptionsMenu(true);
         inflater.inflate(R.menu.menu_main, menu);
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,8 +109,10 @@ public class FirstFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
-            viewModel.refresh();
+
+            //viewModel.refresh();
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);
